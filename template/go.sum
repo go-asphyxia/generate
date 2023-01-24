@@ -1,8 +1,8 @@
-github.com/go-asphyxia/core/bytes v0.0.0-20230117205022-5f6bbf17c124 h1:FMPxKWlPGtWeaVf3QxLf30+S+t0GIE15tOikk10uslU=
-github.com/go-asphyxia/core/bytes v0.0.0-20230117205022-5f6bbf17c124/go.mod h1:U10n63qC+RfAkG+gtkYgA49wjNBzoyhI2Pb3JqVawPk=
-github.com/go-asphyxia/data/list v0.0.0-20230124192024-2af84a8b2570 h1:oLUIJkaChNl1ZVgxRPWlYeH0/Mt0c2Ql5z+8zqNRLyA=
-github.com/go-asphyxia/data/list v0.0.0-20230124192024-2af84a8b2570/go.mod h1:alrgcKZ9WANlpKGKE9C03s0HhN2EeHz9hsFcAuM/I78=
-github.com/go-asphyxia/data/tree v0.0.0-20230124192024-2af84a8b2570 h1:OqUiNgAn6zUeLzyIDEM5NxeTieKSLOkrhKIxHkLWwrg=
-github.com/go-asphyxia/data/tree v0.0.0-20230124192024-2af84a8b2570/go.mod h1:UibG7DAjt9NqOScrm6bRbOnnRqGibYpyDI2BS4FRmng=
+github.com/go-asphyxia/core/bytes v0.0.1 h1:edC4bcciCu6KTabExtULYO4vMZxV27Kp2kPshZ4qIj8=
+github.com/go-asphyxia/core/bytes v0.0.1/go.mod h1:U10n63qC+RfAkG+gtkYgA49wjNBzoyhI2Pb3JqVawPk=
+github.com/go-asphyxia/data/list v0.0.1 h1:ty+RjlGKaoY+zZt9aAuLQ3lYacnsjyn9NuJHRdCqDM8=
+github.com/go-asphyxia/data/list v0.0.1/go.mod h1:nZWwkJ//y+BMGwKCrr2ZNfvuW47LVXouD4S/WCWCEVg=
+github.com/go-asphyxia/data/tree v0.0.1 h1:+Rv65w1nv2cSsSrnV3mAYPFxNFrDyCO9nMTJZYYb5R0=
+github.com/go-asphyxia/data/tree v0.0.1/go.mod h1:cqu/wlo99veLYtbG7qmUB19yOUhMAsZpc9VXXWb/52o=
 github.com/goccy/go-json v0.10.0 h1:mXKd9Qw4NuzShiRlOXKews24ufknHO7gx30lsDyokKA=
 github.com/goccy/go-json v0.10.0/go.mod h1:6MelG93GURQebXPDq3khkgXZkazVtN9CRI+MGFi0w8I=
