@@ -1,10 +1,12 @@
 package main
 
 import (
+	"log"
 	"os"
 
 	"github.com/go-asphyxia/generate/template/parser"
 	"github.com/go-asphyxia/generate/template/processor"
+	"github.com/go-asphyxia/generate/template/source"
 
 	"github.com/goccy/go-json"
 )
@@ -17,21 +19,20 @@ type (
 )
 
 func main() {
-	configuration := &Configuration{}
+	configuration := &Configuration{
+		Parser: parser.Configuration{
+			Path:     ".",
+			Selector: "go.generate",
+		},
+		Processor: processor.Configuration{
+			Selector: "go",
+		},
+	}
 
 	if len(os.Args) == 2 {
 		err := json.Unmarshal([]byte(os.Args[1]), configuration)
 		if err != nil {
-			panic(err)
-		}
-	} else {
-		configuration.Parser = parser.Configuration{
-			Path:     ".",
-			Selector: "go.generate",
-		}
-
-		configuration.Processor = processor.Configuration{
-			Selector: "go",
+			log.Println(err)
 		}
 	}
 
@@ -41,11 +42,13 @@ func main() {
 func Main(configuration *Configuration) {
 	tree, err := parser.Constructor(&configuration.Parser).Parse()
 	if err != nil {
-		panic(err)
+		log.Panic(err)
 	}
+
+	println(tree.String(func(data source.File) string { return "\"" + data.Name + "\"" }))
 
 	err = processor.Constructor(&configuration.Processor).Process(tree)
 	if err != nil {
-		panic(err)
+		log.Panic(err)
 	}
 }

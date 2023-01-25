@@ -2,6 +2,7 @@ package processor
 
 import (
 	"github.com/go-asphyxia/data/tree/general"
+	"github.com/go-asphyxia/generate/template/source"
 )
 
 type (
@@ -20,6 +21,6 @@ func Constructor(configuration *Configuration) *Processor {
 	}
 }
 
-func (processor *Processor) Process(tree general.Tree[any]) (err error) {
+func (processor *Processor) Process(tree general.Tree[source.File]) (err error) {
 	return
 }

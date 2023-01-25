@@ -4,6 +4,7 @@ import (
 	"os"
 	"path"
 
+	"github.com/go-asphyxia/core/bytes"
 	"github.com/go-asphyxia/data/tree/general"
 	"github.com/go-asphyxia/generate/template/source"
 )
@@ -25,41 +26,50 @@ func Constructor(configuration *Configuration) *Parser {
 	}
 }
 
-func (parser *Parser) Parse() (tree general.Tree[any], err error) {
-	err = Read((*general.Node[any])(&tree), parser.configuration.Path)
+func (parser *Parser) Parse() (tree general.Tree[source.File], err error) {
+	tree.Node, err = Read(parser.configuration.Path)
 	return
 }
 
-func Read(node *general.Node[any], name string) error {
+func Read(name string) (node general.Node[source.File], err error) {
 	file, err := os.Open(name)
 	if err != nil {
-		return err
+		return
 	}
 
 	info, err := file.Stat()
 	if err != nil {
-		return err
+		return
 	}
 
-	if info.IsDir() {
-		node.Data = source.FlieList{Name: info.Name()}
+	node.Data.Name = info.Name()
 
+	if info.IsDir() {
 		fileList, err := os.ReadDir(name)
 		if err != nil {
-			return err
+			return node, err
 		}
 
 		for i := range fileList {
-			node := node.Children.PushTail(general.Node[any]{})
-
-			err = Read(&node.Data, path.Join(name, fileList[i].Name()))
+			inner, err := Read(path.Join(name, fileList[i].Name()))
 			if err != nil {
-				return err
+				return node, err
 			}
+
+			node.Children.PushTail(inner)
 		}
 	} else {
-		node.Data = source.File{Name: info.Name()}
+		buffer := bytes.Buffer{}
+
+		_, err = buffer.ReadFrom(file)
+		if err != nil {
+			return
+		}
+
+		node.Data.Data = source.FileData{
+			Text: string(buffer),
+		}
 	}
 
-	return nil
+	return
 }

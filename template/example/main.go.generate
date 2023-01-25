@@ -1,0 +1,14 @@
+package main
+
+template try(err error, catch expression) {
+	if err != nil {
+		inline(catch)
+	}
+}
+
+func main() {
+	file, err := os.Open("main.go.generate")
+	try(err)
+
+	println(file.Name())
+}
