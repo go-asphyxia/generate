@@ -47,7 +47,7 @@ func Main(configuration *Configuration) {
 
 	println(tree.String(func(data source.File) string { return "\"" + data.Name + "\"" }))
 
-	err = processor.Constructor(&configuration.Processor).Process(tree)
+	err = processor.Constructor(&configuration.Processor).Process(&tree)
 	if err != nil {
 		log.Panic(err)
 	}

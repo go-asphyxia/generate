@@ -20,15 +20,14 @@ type (
 	}
 )
 
-func Constructor(configuration *Configuration) *Parser {
+func Constructor(configuration *Configuration) (parser *Parser) {
 	return &Parser{
 		configuration: *configuration,
 	}
 }
 
-func (parser *Parser) Parse() (tree general.Tree[source.File], err error) {
-	tree.Node, err = Read(parser.configuration.Path)
-	return
+func (parser *Parser) Parse() (tree general.Node[source.File], err error) {
+	return Read(parser.configuration.Path)
 }
 
 func Read(name string) (node general.Node[source.File], err error) {
@@ -42,23 +41,9 @@ func Read(name string) (node general.Node[source.File], err error) {
 		return
 	}
 
-	node.Data.Name = info.Name()
+	infoName := info.Name()
 
-	if info.IsDir() {
-		fileList, err := os.ReadDir(name)
-		if err != nil {
-			return node, err
-		}
-
-		for i := range fileList {
-			inner, err := Read(path.Join(name, fileList[i].Name()))
-			if err != nil {
-				return node, err
-			}
-
-			node.Children.PushTail(inner)
-		}
-	} else {
+	if info.IsDir() == false {
 		buffer := bytes.Buffer{}
 
 		_, err = buffer.ReadFrom(file)
@@ -66,9 +51,32 @@ func Read(name string) (node general.Node[source.File], err error) {
 			return
 		}
 
-		node.Data.Data = source.FileData{
-			Text: string(buffer),
+		return general.Node[source.File]{
+			Data: source.File{
+				Name: infoName,
+				Data: source.FileData{
+					Text: string(buffer),
+				},
+			},
+		}, nil
+	}
+
+	infoList, err := os.ReadDir(name)
+	if err != nil {
+		return node, err
+	}
+
+	node.Data = source.File{
+		Name: infoName,
+	}
+
+	for i := range infoList {
+		infoNode, err := Read(path.Join(name, infoList[i].Name()))
+		if err != nil {
+			return node, err
 		}
+
+		infoNode.PushTail(&node.Children)
 	}
 
 	return

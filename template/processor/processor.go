@@ -21,6 +21,6 @@ func Constructor(configuration *Configuration) *Processor {
 	}
 }
 
-func (processor *Processor) Process(tree general.Tree[source.File]) (err error) {
-	return
+func (processor *Processor) Process(tree *general.Node[source.File]) error {
+	return nil
 }
