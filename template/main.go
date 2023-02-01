@@ -45,10 +45,21 @@ func Main(configuration *Configuration) {
 		log.Panic(err)
 	}
 
-	println(tree.String(func(data source.File) string { return "\"" + data.Name + "\"" }))
+	println(tree.String(debug))
 
 	err = processor.Constructor(&configuration.Processor).Process(&tree)
 	if err != nil {
 		log.Panic(err)
+	}
+}
+
+func debug(data source.Point) string {
+	switch data.Data.(type) {
+	case source.Folder:
+		return `"` + data.Name + `"`
+	case source.File:
+		return `"` + data.Name + `"`
+	default:
+		return `unknown`
 	}
 }

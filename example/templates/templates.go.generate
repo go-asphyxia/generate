@@ -1,0 +1,5 @@
+package templates
+
+template OrCatch(err error, catch expression) {
+	if err != nil inline(catch)
+}

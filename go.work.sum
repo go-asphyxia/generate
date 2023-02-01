@@ -1,3 +1,2 @@
-github.com/go-asphyxia/core/bytes v0.0.2 h1:UbSAUUbtaCiU5efVOeW0Rcb6diRhFci8UbSJlZOam3s=
-github.com/go-asphyxia/data/tree v0.0.4 h1:iEYWxOqM/NKpIFfeP0XqAGyXc4s1VrxKZmiMiovyyzs=
-github.com/go-asphyxia/data/tree v0.0.4/go.mod h1:FoVKYs4N39//qCkYzguQD7C/UTAC3SuEeXr7TQCcQmw=
+github.com/go-asphyxia/data/tree v0.0.5 h1:GDFU4hYb++8zB26Pnr/SbYVdionfuW9eO4vM3X3fwUo=
+github.com/go-asphyxia/data/tree v0.0.5/go.mod h1:FoVKYs4N39//qCkYzguQD7C/UTAC3SuEeXr7TQCcQmw=

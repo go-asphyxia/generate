@@ -1,14 +1,22 @@
 package source
 
+import "github.com/go-asphyxia/core/bytes"
+
 type (
-	File struct {
+	Point struct {
 		Name string
 		Data any
 	}
 
-	FileData struct {
-		Text string
+	Folder struct {
+		Path string
 	}
 
-	ListData struct{}
+	File struct {
+		Text bytes.Buffer
+	}
+
+	Package struct {
+		Name string
+	}
 )

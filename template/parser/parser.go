@@ -20,17 +20,23 @@ type (
 	}
 )
 
-func Constructor(configuration *Configuration) (parser *Parser) {
+func Constructor(configuration *Configuration) *Parser {
 	return &Parser{
 		configuration: *configuration,
 	}
 }
 
-func (parser *Parser) Parse() (tree general.Node[source.File], err error) {
-	return Read(parser.configuration.Path)
+func (parser *Parser) Parse() (tree general.Node[source.Point], err error) {
+	tree, err = Read(parser.configuration.Path)
+	if err != nil {
+		return
+	}
+
+	err = Scan(&tree)
+	return
 }
 
-func Read(name string) (node general.Node[source.File], err error) {
+func Read(name string) (node general.Node[source.Point], err error) {
 	file, err := os.Open(name)
 	if err != nil {
 		return
@@ -44,40 +50,49 @@ func Read(name string) (node general.Node[source.File], err error) {
 	infoName := info.Name()
 
 	if info.IsDir() == false {
-		buffer := bytes.Buffer{}
+		text := bytes.Buffer{}
 
-		_, err = buffer.ReadFrom(file)
+		_, err = text.ReadFrom(file)
 		if err != nil {
 			return
 		}
 
-		return general.Node[source.File]{
-			Data: source.File{
+		return general.Node[source.Point]{
+			Data: source.Point{
 				Name: infoName,
-				Data: source.FileData{
-					Text: string(buffer),
+				Data: source.File{
+					Text: text,
 				},
 			},
 		}, nil
 	}
 
-	infoList, err := os.ReadDir(name)
+	fileList, err := os.ReadDir(name)
 	if err != nil {
 		return node, err
 	}
 
-	node.Data = source.File{
+	node.Data = source.Point{
 		Name: infoName,
+		Data: source.Folder{
+			Path: name,
+		},
 	}
 
-	for i := range infoList {
-		infoNode, err := Read(path.Join(name, infoList[i].Name()))
+	for i := range fileList {
+		fileNode, err := Read(path.Join(name, fileList[i].Name()))
 		if err != nil {
 			return node, err
 		}
 
-		infoNode.PushTail(&node.Children)
+		fileNode.PushTail(&node.Children)
 	}
+
+	return
+}
+
+func Scan(tree *general.Node[source.Point]) (err error) {
+	// iterator := tree.Iterator()
 
 	return
 }

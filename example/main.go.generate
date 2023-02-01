@@ -1,0 +1,24 @@
+package main
+
+import (
+	"github.com/go-asphyxia/generate/template/example/templates"
+)
+
+template orPanic(err error) {
+	if err != nil {
+		panic(err)
+	}
+}
+
+func main() {
+	file, err := os.Open("main.go.generate")
+	try(err, { panic(err) })
+
+	_, err = file.WriteString("Hello world!")
+	orPanic(err)
+
+	_, err = file.WriteString("Goodbye!")
+	templates.OrCatch(err, { return })
+
+	println(file.Name())
+}
